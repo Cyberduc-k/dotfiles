@@ -3,7 +3,6 @@ function fish_prompt
     set --local dir ""
     set --local project_type ""
     set --local git_branch (git branch ^/dev/null | grep \* | sed 's/* //')
-    set --local git_remote ""
     set --local prompt
 
     if test -e ./Cargo.toml
@@ -30,17 +29,6 @@ function fish_prompt
         set git_branch ""
     end
 
-    if test -d ./.git
-        set git_remote (git remote)
-
-        if set -q git_remote[1]
-            if test (string length $git_remote[1]) -gt 0
-                set git_remote (git remote get-url $git_remote[1] | sed 's/.*\///' | sed 's/\.git//')
-                set git_remote "  $git_remote"
-            end
-        end
-    end
-
     if test (string length $project_type) -gt 0
         set prompt $prompt (set_color -b 333)"$project_type "
         set prompt $prompt (set_color 333 -b blue)""
@@ -50,7 +38,7 @@ function fish_prompt
 
     if test (string length $git_branch) -gt 0
         set prompt $prompt (set_color blue -b red)""
-        set prompt $prompt (set_color normal -b red)"  $git_branch$git_remote "
+        set prompt $prompt (set_color normal -b red)"  $git_branch "
         set prompt $prompt (set_color red -b normal)""
     else
         set prompt $prompt (set_color blue -b normal)""
