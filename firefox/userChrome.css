@@ -1,16 +1,28 @@
 /* PERSONAL TWEAKS */
-#titlebar {
-    margin-left: 50vw;
-    height: 36px;
+@media (min-width: 1300px) {
+    #titlebar {
+        margin-left: 50vw;
+        height: 36px;
+    }
+
+    #nav-bar {
+        margin-right: 50vw;
+        margin-top: -36px;
+    }
+
+    #TabsToolbar .tabbrowser-tab .tab-content {
+        margin-top: -2px;
+    }
 }
 
-#nav-bar {
-    margin-right: 50vw;
-    margin-top: -36px;
-}
+@media (max-width: 1299px) {
+    #titlebar {
+        -moz-box-ordinal-group: 2 !important;
+    }
 
-#TabsToolbar .tabbrowser-tab .tab-content {
-    margin-top: -2px;
+    #nav-bar {
+        -moz-box-ordinal-group: 1 !important;	
+    }
 }
 
 /* MIN MAX CLOSE Remove */
@@ -160,14 +172,6 @@ Show when urlbar is focused*/
 
 #PersonalToolbar {
     -moz-box-ordinal-group: 3 !important;
-}
-
-#titlebar {
-    -moz-box-ordinal-group: 1 !important;
-}
-
-#nav-bar {
-    -moz-box-ordinal-group: 2 !important;	
 }
 
 /* Search Bar */
