@@ -31,20 +31,20 @@ function fish_prompt
 
     if test (string length $project_type) -gt 0
         set prompt $prompt (set_color -b 333)"$project_type "
-        set prompt $prompt (set_color 333 -b blue)""
+        # set prompt $prompt (set_color 333 -b blue)""
     end
 
     set prompt $prompt (set_color normal -b blue)" $dir "
 
     if test (string length $git_branch) -gt 0
-        set prompt $prompt (set_color blue -b red)""
+        # set prompt $prompt (set_color blue -b red)""
         set prompt $prompt (set_color normal -b red)"  $git_branch "
-        set prompt $prompt (set_color red -b normal)""
+        # set prompt $prompt (set_color red -b normal)""
     else
-        set prompt $prompt (set_color blue -b normal)""
+        # set prompt $prompt (set_color blue -b normal)""
     end
 
-    set prompt $prompt (set_color normal)"\n→ "
+    set prompt $prompt (set_color normal)"\n∈ "
 
     for part in $prompt
         echo -n -e $part

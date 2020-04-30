@@ -5,9 +5,10 @@ let mapleader = ";"
 " ### PLUGINS ###
 " ###############
 
-call plug#begin('~/.local/shared/nvim/plugged')
+call plug#begin('~/.local/share/nvim/plugged')
 
-Plug 'file://'.expand('~/.local/shared/nvim/plugged/fluix')
+Plug 'file://'.expand('~/.local/share/nvim/plugged/fluix')
+Plug 'file://'.expand('~/.local/share/nvim/plugged/ori.nvim')
 
 Plug 'dunstontc/vim-vscode-theme'
 Plug 'lifepillar/vim-solarized8'
@@ -23,12 +24,16 @@ Plug 'itchyny/lightline.vim'
 Plug 'airblade/vim-rooter'
 Plug 'cloudhead/neovim-fuzzy'
 
+Plug 'preservim/nerdcommenter'
+
 Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 
 Plug 'cespare/vim-toml'
 Plug 'rust-lang/rust.vim'
 Plug 'pangloss/vim-javascript'
 Plug 'vim-scripts/fish-syntax'
+Plug 'DeltaWhy/vim-mcfunction'
+Plug 'tikhomirov/vim-glsl'
 
 call plug#end()
 
@@ -95,8 +100,8 @@ endfunction
 " coc.nvim config
 set updatetime=300
 
-inoremap <silent><expr> <Down> (pumvisible() ? "\<Right>\<Down>" : "\<Down>")
-inoremap <silent><expr> <Up> (pumvisible() ? "\<Right>\<Up>" : "\<Up>")
+inoremap <silent><expr> <Down> (pumvisible() ? "\<Right>\<Down>\<Left>" : "\<Down>")
+inoremap <silent><expr> <Up> (pumvisible() ? "\<Right>\<Up>\<Left>" : "\<Up>")
 
 inoremap <silent><expr> <Tab>
     \ pumvisible() ? "\<C-n>" :
@@ -124,6 +129,12 @@ nmap <silent> fi <Plug>(coc-implementation)
 nmap <silent> fr <Plug>(coc-references)
 nmap <silent> E <Plug>(coc-diagnostic-next)
 nmap <silent> W <Plug>(cod-diagnostic-prev)
+
+" NERDCommenter config
+let g:NERDDefaultAlign = 'left'
+let g:NERDCommentEmptyLines = 1
+let g:NERDSpaceDelims = 1
+let g:NERDCustomDelimiters = { 'ori': { 'left': '//', 'leftAlt': '/*', 'rightAlt': '*/' } }
 
 " ###############
 " ### UTILITY ###
@@ -185,6 +196,15 @@ set ruler
 set number
 set showcmd
 
+" fix syntaxes
+autocmd BufEnter *.lowlang call s:fix_lowlang()
+autocmd BufNewFile,BufRead *.vsh,*.fsh set ft=glsl
+
+function! s:fix_lowlang()
+    set filetype=text
+    set syntax=rust
+endfunction
+
 " ###################
 " ### KEYBINDINGS ###
 " ###################
@@ -192,7 +212,7 @@ set showcmd
 nnoremap ? ?\v
 nnoremap / /\v
 cnoremap %s/ %sm/
-"tnoremap <Esc> <C-\><C-n>
+tnoremap <leader><Esc> <C-\><C-n>
 nnoremap <leader><leader> <c-^>
 
 " fuzzy file search
@@ -207,16 +227,13 @@ imap <A-Down> <Esc>:m .+1<CR>==gi
 imap <A-Up> <Esc>:m .-2<CR>==gi
 
 nnoremap <silent> <leader>ec :e ~/.config/nvim/init.vim<CR>
-nnoremap <C-_> :call Toggle_comments()<CR>
+nmap <C-_> <Plug>NERDCommenterToggle
+vmap <C-_> <Plug>NERDCommenterToggle
+vmap <C-C> <Plug>NERDCommenterMinimal
+vmap <C-U> <Plug>NERDCommenterUncomment
 
-function! Toggle_comments()
-    let l:cursor_pos = getpos('.')
+nmap <C-H> :noh<CR>
 
-    if getline('.') =~ "\s*// "
-        :exe "normal ^i\<Del>\<Del>\<Del>\<Esc>"
-    else
-        :exe "normal ^i// \<Esc>"
-    endif
+command! Bd bp | sp | bn | bd
 
-    :call setpos('.', l:cursor_pos)
-endfunc
+hi Normal guibg=NONE

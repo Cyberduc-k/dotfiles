@@ -1,3 +1,4 @@
 alias shutdown "prompt 'Are you sure you want to shutdown?' 'command shutdown -h now'"
 alias ls "exa -la"
+alias lst "exa -la -T"
 alias cfg "/usr/bin/git --git-dir=$HOME/dotfiles.git --work-tree=$HOME"

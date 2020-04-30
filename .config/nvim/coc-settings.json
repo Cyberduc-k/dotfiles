@@ -1,0 +1,5 @@
+{
+    "diagnostic.errorSign": "E",
+    "diagnostic.warningSign": "W",
+    "coc.preferences.formatOnSaveFiletypes": ["rust"]
+}
