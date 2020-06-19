@@ -1,5 +1,6 @@
 {
     "diagnostic.errorSign": "E",
     "diagnostic.warningSign": "W",
-    "coc.preferences.formatOnSaveFiletypes": ["rust"]
+    "coc.preferences.formatOnSaveFiletypes": ["rust"],
+    "coc.preferences.extensionUpdateCheck": "never"
 }

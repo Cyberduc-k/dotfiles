@@ -1,157 +1,44 @@
 set shell=/bin/bash
 let mapleader = ";"
 
-" ###############
-" ### PLUGINS ###
-" ###############
-
 call plug#begin('~/.local/share/nvim/plugged')
 
 Plug 'file://'.expand('~/.local/share/nvim/plugged/fluix')
 Plug 'file://'.expand('~/.local/share/nvim/plugged/ori.nvim')
+Plug 'file://'.expand('~/.local/share/nvim/plugged/plum.nvim')
 
-Plug 'dunstontc/vim-vscode-theme'
-Plug 'lifepillar/vim-solarized8'
-Plug 'arcticicestudio/nord-vim'
 Plug 'morhetz/gruvbox'
-Plug 'saltdotac/citylights.vim'
-Plug 'bluz71/vim-moonfly-colors'
-Plug 'victorze/foo'
-Plug 'schickele/vim-nachtleben'
-
+Plug 'arzg/vim-colors-xcode'
+Plug 'franbach/miramare'
+Plug 'Rigellute/shades-of-purple.vim'
+Plug 'sainnhe/forest-night'
 Plug 'itchyny/lightline.vim'
+Plug 'maximbaz/lightline-ale'
 
 Plug 'airblade/vim-rooter'
 Plug 'cloudhead/neovim-fuzzy'
+" Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+" Plug 'junegunn/fzf.vim'
+Plug 'dense-analysis/ale'
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 
 Plug 'preservim/nerdcommenter'
 
-Plug 'neoclide/coc.nvim', { 'branch': 'release' }
-
 Plug 'cespare/vim-toml'
 Plug 'rust-lang/rust.vim'
-Plug 'pangloss/vim-javascript'
 Plug 'vim-scripts/fish-syntax'
-Plug 'DeltaWhy/vim-mcfunction'
-Plug 'tikhomirov/vim-glsl'
+Plug 'neovimhaskell/haskell-vim'
 
 call plug#end()
 
-colorscheme gruvbox
+let g:forest_night_disable_italic_comment = 1
+
+colorscheme forest-night
 set background=dark
 set termguicolors
 
-" lightline config
-let g:lightline = {}
-let g:lightline.colorscheme = 'gruvbox'
-let g:lightline.active = {}
-let g:lightline.active.left = [['mode'], ['readonly', 'filename', 'coc_error', 'coc_warning']]
-let g:lightline.active.right = [['lineinfo'], ['filetype']]
-let g:lightline.component_function = {
-            \ 'filename': 'LightLineFilename',
-            \ }
-let g:lightline.component_expand = {
-            \ 'coc_error': 'LightLineCocErrors',
-            \ 'coc_warning': 'LightLineCocWarnings',
-            \ }
-let g:lightline.component_type = {
-            \ 'coc_error': 'error',
-            \ 'coc_warning': 'warning',
-            \ }
-
-let s:palette = g:lightline#colorscheme#{g:lightline.colorscheme}#palette
-let s:palette.normal.error = [['#FFFFFF', '#FF0000', 255, 255]]
-let s:palette.normal.warning = [['#FFFFFF', '#FF8000', 255, 255]]
-
-autocmd User CocDiagnosticChange call lightline#update()
-
-function! s:lightline_coc_diagnostic(kind) abort
-    let l:diagnostics = CocAction('diagnosticList')
-    if a:kind == "error"
-        let l:errors = filter(l:diagnostics, {idx, val -> val.level == 1})
-        let l:count = len(l:errors)
-        let l:sign = "E"
-    else
-        let l:warnings = filter(l:diagnostics, {idx, val -> val.level == 2})
-        let l:count = len(l:warnings)
-        let l:sign = "W"
-    endif
-    if l:count == 0
-        return ''
-    else
-        return printf('%s %d', l:sign, l:count)
-    endif
-endfunction
-
-function! LightLineFilename() abort
-    let filename = expand('%:t') !=# '' ? expand('%:t') : '[No Name]'
-    let modified = &modified ? '*' : ''
-    return filename . modified
-endfunction
-
-function! LightLineCocErrors() abort
-    return s:lightline_coc_diagnostic('error')
-endfunction
-
-function! LightLineCocWarnings() abort
-    return s:lightline_coc_diagnostic('warning')
-endfunction
-
-" coc.nvim config
-set updatetime=300
-
-inoremap <silent><expr> <Down> (pumvisible() ? "\<Right>\<Down>\<Left>" : "\<Down>")
-inoremap <silent><expr> <Up> (pumvisible() ? "\<Right>\<Up>\<Left>" : "\<Up>")
-
-inoremap <silent><expr> <Tab>
-    \ pumvisible() ? "\<C-n>" :
-    \ <SID>check_back_space() ? "\<Tab>" :
-    \ coc#refresh()
-
-nnoremap <silent> K :call <SID>show_documentation()<CR>
-
-function! s:check_back_space() abort
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1] =~# '\s'
-endfunction
-
-function! s:show_documentation()
-    if (index(['vim','help'], &filetype) >= 0)
-        execute 'h '.expand('<cword>')
-    else
-        call CocAction('doHover')
-    endif
-endfunction
-
-nmap <silent> fd <Plug>(coc-definition)
-nmap <silent> ft <Plug>(coc-type-definition)
-nmap <silent> fi <Plug>(coc-implementation)
-nmap <silent> fr <Plug>(coc-references)
-nmap <silent> E <Plug>(coc-diagnostic-next)
-nmap <silent> W <Plug>(cod-diagnostic-prev)
-
-" NERDCommenter config
-let g:NERDDefaultAlign = 'left'
-let g:NERDCommentEmptyLines = 1
-let g:NERDSpaceDelims = 1
-let g:NERDCustomDelimiters = { 'ori': { 'left': '//', 'leftAlt': '/*', 'rightAlt': '*/' } }
-
-" ###############
-" ### UTILITY ###
-" ###############
-
-function! SynStack()
-    if !exists("*synstack")
-        return
-    endif
-    echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
-endfunc
-
-" ##############
-" ### EDITOR ###
-" ##############
-
 filetype plugin indent on
+
 set autoindent
 set mouse=a
 set timeoutlen=300
@@ -174,7 +61,6 @@ set softtabstop=4
 set expandtab
 set shiftwidth=4
 set smarttab
-
 set path+=**
 
 syntax on
@@ -196,44 +82,75 @@ set ruler
 set number
 set showcmd
 
-" fix syntaxes
-autocmd BufEnter *.lowlang call s:fix_lowlang()
-autocmd BufNewFile,BufRead *.vsh,*.fsh set ft=glsl
+let g:ale_fixers = { 'rust': ['rustfmt'] }
+let g:ale_fix_on_save = 1
+let g:ale_linters = { 'rust': ['analyzer'] }
+let g:ale_set_highlights = 1
+let g:ale_sign_column_always = 1
+hi ALEError guifg=red ctermfg=red gui=undercurl cterm=undercurl
+hi ALEWarning cterm=undercurl
+nmap <silent>K :ALEHover<CR>
+nmap <silent>E :ALENextWrap<CR>
+nmap <silent>W :ALEPreviousWrap<CR>
+nmap <silent>fd :ALEGoToDefinition<CR>
 
-function! s:fix_lowlang()
-    set filetype=text
-    set syntax=rust
-endfunction
+call deoplete#custom#option('sources', { '_': ['ale'] })
+let g:deoplete#enable_at_startup = 1
+set completeopt-=preview
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<Tab>"
+inoremap <expr> <Down> pumvisible() ? "\<C-y>\<Down>" : "\<Down>"
+inoremap <expr> <Up> pumvisible() ? "\<C-y>\<Up>" : "\<Up>"
 
-" ###################
-" ### KEYBINDINGS ###
-" ###################
-
-nnoremap ? ?\v
-nnoremap / /\v
-cnoremap %s/ %sm/
-tnoremap <leader><Esc> <C-\><C-n>
-nnoremap <leader><leader> <c-^>
-
-" fuzzy file search
-map <C-p> :FuzzyOpen<CR>
-map <C-o> :FuzzyGrep<CR>
-map <C-l> :! 
-
-" move/copy lines up/down
-imap <C-A-Up> <Esc>:t .+0<CR>==gi
-imap <C-A-Down> <Esc>:t .-1<CR>==gi
-imap <A-Down> <Esc>:m .+1<CR>==gi
-imap <A-Up> <Esc>:m .-2<CR>==gi
-
-nnoremap <silent> <leader>ec :e ~/.config/nvim/init.vim<CR>
+let g:NERDDefaultAlign = 'left'
+let g:NERDCommentEmptyLines = 1
+let g:NERDSpaceDelims = 1
+let g:NERDCustomDelimiters = { 'plum': { 'left': '#' } }
 nmap <C-_> <Plug>NERDCommenterToggle
 vmap <C-_> <Plug>NERDCommenterToggle
 vmap <C-C> <Plug>NERDCommenterMinimal
 vmap <C-U> <Plug>NERDCommenterUncomment
 
-nmap <C-H> :noh<CR>
+let g:shades_of_purple_lightline=1
+let g:lightline = {}
+let g:lightline.colorscheme = 'forest_night'
+let g:lightline.active = {}
+let g:lightline.active.left = [['mode'], ['readonly', 'filename', 'linter_errors', 'linter_warnings']]
+let g:lightline.active.right = [['lineinfo'], ['filetype']]
+let g:lightline.component_function = {
+	\ 'filename': 'LightlineFilename',
+	\ }
+let g:lightline.component_expand = {
+    \ 'linter_errors': 'lightline#ale#errors',
+    \ 'linter_warnings': 'lightline#ale#warnings',
+    \ }
+let g:lightline.component_type = {
+    \ 'linter_errors': 'error',
+    \ 'linter_warnings': 'warning',
+    \ }
+let g:lightline#ale#indicator_errors = "E "
+let g:lightline#ale#indicator_warnings = "W "
+" let s:palette = g:lightline#colorscheme#{g:lightline.colorscheme}#palette
+" let s:palette.normal.error = [['#FFFFFF', '#FF0000', 255, 255]]
+" let s:palette.normal.warning = [['#FFFFFF', '#FF8000', 255, 255]]
 
-command! Bd bp | sp | bn | bd
+function! LightlineFilename() abort
+    let filename = expand('%:t') !=# '' ? expand('%:t') : '[No Name]'
+    let modified = &modified ? '*' : ''
+    return filename . modified
+endfunction
 
-hi Normal guibg=NONE
+map <C-p> :FuzzyOpen<CR>
+map <C-g> :FuzzyGrep<CR>
+
+function! SynStack()
+    if !exists("*synstack")
+        return
+    endif
+    echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
+endfunc
+
+nmap <leader><leader> <C-^>
+nmap <leader>ec :e ~/.config/nvim/init.vim<CR>
+
+" hi Normal guibg=NONE
