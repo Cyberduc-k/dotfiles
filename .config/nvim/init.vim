@@ -11,7 +11,8 @@ Plug 'morhetz/gruvbox'
 Plug 'arzg/vim-colors-xcode'
 Plug 'franbach/miramare'
 Plug 'Rigellute/shades-of-purple.vim'
-Plug 'sainnhe/forest-night'
+" Plug 'sainnhe/forest-night'
+Plug 'Cyberduc-k/forest-night' " fork for forest-night with highlighting for Plum
 Plug 'itchyny/lightline.vim'
 Plug 'maximbaz/lightline-ale'
 
@@ -28,6 +29,8 @@ Plug 'cespare/vim-toml'
 Plug 'rust-lang/rust.vim'
 Plug 'vim-scripts/fish-syntax'
 Plug 'neovimhaskell/haskell-vim'
+Plug 'purescript-contrib/purescript-vim'
+Plug 'tikhomirov/vim-glsl'
 
 call plug#end()
 
@@ -105,7 +108,7 @@ inoremap <expr> <Up> pumvisible() ? "\<C-y>\<Up>" : "\<Up>"
 let g:NERDDefaultAlign = 'left'
 let g:NERDCommentEmptyLines = 1
 let g:NERDSpaceDelims = 1
-let g:NERDCustomDelimiters = { 'plum': { 'left': '#' } }
+let g:NERDCustomDelimiters = { 'plum': { 'left': '--' } }
 nmap <C-_> <Plug>NERDCommenterToggle
 vmap <C-_> <Plug>NERDCommenterToggle
 vmap <C-C> <Plug>NERDCommenterMinimal
@@ -152,5 +155,8 @@ endfunc
 
 nmap <leader><leader> <C-^>
 nmap <leader>ec :e ~/.config/nvim/init.vim<CR>
+
+nmap <A-Up> dd<Up>P
+nmap <A-Down> ddp
 
 " hi Normal guibg=NONE
