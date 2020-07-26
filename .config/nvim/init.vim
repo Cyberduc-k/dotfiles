@@ -5,7 +5,8 @@ call plug#begin('~/.local/share/nvim/plugged')
 
 Plug 'file://'.expand('~/.local/share/nvim/plugged/fluix')
 Plug 'file://'.expand('~/.local/share/nvim/plugged/ori.nvim')
-Plug 'file://'.expand('~/.local/share/nvim/plugged/plum.nvim')
+" Plug 'file://'.expand('~/.local/share/nvim/plugged/plum.nvim')
+Plug 'file://'.expand('~/.local/share/nvim/plugged/plum2.nvim')
 
 Plug 'morhetz/gruvbox'
 Plug 'arzg/vim-colors-xcode'
@@ -15,15 +16,18 @@ Plug 'Rigellute/shades-of-purple.vim'
 Plug 'Cyberduc-k/forest-night' " fork for forest-night with highlighting for Plum
 Plug 'itchyny/lightline.vim'
 Plug 'maximbaz/lightline-ale'
+Plug 'file://'.expand('~/.local/share/nvim/plugged/jsfiddle')
 
 Plug 'airblade/vim-rooter'
-Plug 'cloudhead/neovim-fuzzy'
-" Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-" Plug 'junegunn/fzf.vim'
+" Plug 'cloudhead/neovim-fuzzy'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
 Plug 'dense-analysis/ale'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 
 Plug 'preservim/nerdcommenter'
+
+Plug 'nvim-treesitter/nvim-treesitter'
 
 Plug 'cespare/vim-toml'
 Plug 'rust-lang/rust.vim'
@@ -36,9 +40,9 @@ call plug#end()
 
 let g:forest_night_disable_italic_comment = 1
 
-colorscheme forest-night
 set background=dark
 set termguicolors
+colorscheme forest-night
 
 filetype plugin indent on
 
@@ -53,6 +57,7 @@ set nowrap
 set nojoinspaces
 set lazyredraw
 set signcolumn=yes
+set colorcolumn=160
 set splitright
 set splitbelow
 set undodir=~/.vimdid
@@ -85,6 +90,26 @@ set ruler
 set number
 set showcmd
 
+" Tree sitter
+let s:enable_treesitter = 0
+
+if s:enable_treesitter
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+    highlight = {
+        enable = true,
+        disable = {},
+    },
+    refactor = {
+        highlight_definitions = {
+            enable = true
+        }
+    }
+}
+EOF
+endif
+
+" Ale
 let g:ale_fixers = { 'rust': ['rustfmt'] }
 let g:ale_fix_on_save = 1
 let g:ale_linters = { 'rust': ['analyzer'] }
@@ -105,6 +130,7 @@ inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<Tab>"
 inoremap <expr> <Down> pumvisible() ? "\<C-y>\<Down>" : "\<Down>"
 inoremap <expr> <Up> pumvisible() ? "\<C-y>\<Up>" : "\<Up>"
 
+" NERD Commenter
 let g:NERDDefaultAlign = 'left'
 let g:NERDCommentEmptyLines = 1
 let g:NERDSpaceDelims = 1
@@ -114,6 +140,7 @@ vmap <C-_> <Plug>NERDCommenterToggle
 vmap <C-C> <Plug>NERDCommenterMinimal
 vmap <C-U> <Plug>NERDCommenterUncomment
 
+" Lightline
 let g:shades_of_purple_lightline=1
 let g:lightline = {}
 let g:lightline.colorscheme = 'forest_night'
@@ -143,8 +170,12 @@ function! LightlineFilename() abort
     return filename . modified
 endfunction
 
-map <C-p> :FuzzyOpen<CR>
-map <C-g> :FuzzyGrep<CR>
+" FZF
+let g:fzf_preview_window = ''
+let g:fzf_layout = { 'down': '15%' }
+
+map <C-p> :Files<CR>
+map <C-g> :Rg<CR>
 
 function! SynStack()
     if !exists("*synstack")
@@ -153,6 +184,7 @@ function! SynStack()
     echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
 endfunc
 
+nmap <C-s> :call SynStack()<CR>
 nmap <leader><leader> <C-^>
 nmap <leader>ec :e ~/.config/nvim/init.vim<CR>
 

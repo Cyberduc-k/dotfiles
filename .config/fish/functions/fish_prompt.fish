@@ -1,7 +1,7 @@
 function fish_prompt
     get_pwd_prompt
-    printf " "
-    get_git_prompt
+    # printf " "
+    # get_git_prompt
     printf "\n> "
 end
 

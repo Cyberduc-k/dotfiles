@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <link rel="shortcut icon" href="icons/fox.svg" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="scripts/search.js"></script>
+    <script src="scripts/load.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="head">
+            <div class="logo"><img src="icons/fox.svg" /></div>
+            <div class="search_box">
+
+                <img class="engine" id="engineLogo" src="icons/google.svg" onclick="toggleEngine()"
+                    style="cursor:pointer" />
+
+                <div id="gSearch" style="display:block;">
+                    <form id="textField" class="google" action="https://google.com/search" method="get">
+                        <input class="input_box" type="text" name="q" placeholder="Search with Google">
+                        <button class="button"> <img src="icons/search.svg" style="cursor:pointer" /></button>
+                    </form>
+                </div>
+
+                <div id="dSearch" style="display:none;">
+                    <form class="duck" action="https://duckduckgo.com/" method="get">
+                        <input class="input_box" type="text" name="q" placeholder="Search with DuckDuckGo">
+                        <button class="button"> <img src="icons/search.svg" style="cursor:pointer" /></button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="bookmark">
+            <div class="category">
+                <div class="icon"><img src="icons/code.svg" /></div>
+                <div class="bookmarks cod">
+                    <li><a class="bm" href="https://github.com/">Github</a></li>
+                    <li><a class="bm" href="https://crates.io/">Crates.io</a></li>
+                    <li><a class="bm" href="https://docs.rs/">Docs.rs</a></li>
+                    <li><a class="bm" href="https://doc.rust-lang.org/std/">Rust std</a></li>
+                    <!-- <li><a class="bm" href="https://codeforces.com/">CodeForces</a></li> -->
+                </div>
+            </div>
+
+            <!-- <div class="category">
+                <div class="icon"><img src="icons/docs.svg" /></div>
+                <div class="bookmarks doc">
+                    <li><a class="bm" href="https://en.cppreference.com/w/">C++</a></li>
+                    <li><a class="bm" href="https://docs.python.org/3.7/library/index.html">Python</a></li>
+                    <li><a class="bm" href="https://mail.google.com/mail/u/0/h/">Mail</a></li>
+                    <li><a class="bm" href="https://github.com/dbuxy218">Github</a></li>
+                    <li><a class="bm" href="https://mega.nz/">Mega</a></li>
+                </div>
+            </div> -->
+
+            <div class="category">
+                <div class="icon"><img src="icons/entertainment.svg" /></div>
+                <div class="bookmarks ent">
+                    <li><a class="bm" href="https://youtube.com/">Youtube</a></li>
+                    <li><a class="bm" href="https://kisscartoon.info/">Cartoons</a></li>
+                </div>
+            </div>
+
+            <div class="category">
+                <div class="icon"><img src="icons/music.svg" /></div>
+                <div class="bookmarks mus">
+                    <li><a class="bm" href="https://open.spotify.com/">Spotify</a></li>
+                    <li><a class="bm" href="https://soundcloud.com/">Soundcloud</a></li>
+                    <li><a class="bm" href="https://monstercat.com/">Monstercat</a></li>
+                    <li><a class="bm" href="https://wearecyberduck.com/">Cyberduck</a></li>
+                </div>
+            </div>
+
+            <div class="category">
+                <div class="icon"><img src="icons/art.svg" /></div>
+                <div class="bookmarks art">
+                    <li><a class="bm" href="https://dribbble.com/">Dribbble</a></li>
+                    <li><a class="bm" href="https://behance.net/">Behance</a></li>
+                    <li><a class="bm" href="https://deviantart.com/">Deviantart</a></li>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</body>
+
+</html>
