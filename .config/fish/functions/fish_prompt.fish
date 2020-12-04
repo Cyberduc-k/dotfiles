@@ -1,13 +1,24 @@
 function fish_prompt
+    get_status
+    printf " "
     get_pwd_prompt
     # printf " "
     # get_git_prompt
-    printf "\n> "
+    printf " \$ "
+end
+
+function get_status
+    set -l last_status $status
+    printf "["
+    set_color green
+    printf $last_status
+    set_color normal
+    printf "]"
 end
 
 function get_pwd_prompt
     set_color blue
-    printf $PWD
+    printf (basename $PWD)
     set_color normal
 end
 

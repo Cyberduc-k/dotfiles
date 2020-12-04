@@ -1,3 +1,4 @@
+set nocompatible
 set shell=/bin/bash
 let mapleader = ";"
 
@@ -7,27 +8,35 @@ Plug 'file://'.expand('~/.local/share/nvim/plugged/fluix')
 Plug 'file://'.expand('~/.local/share/nvim/plugged/ori.nvim')
 " Plug 'file://'.expand('~/.local/share/nvim/plugged/plum.nvim')
 Plug 'file://'.expand('~/.local/share/nvim/plugged/plum2.nvim')
+Plug 'file://'.expand('~/.local/share/nvim/plugged/shade.nvim')
 
 Plug 'morhetz/gruvbox'
 Plug 'arzg/vim-colors-xcode'
 Plug 'franbach/miramare'
 Plug 'Rigellute/shades-of-purple.vim'
-" Plug 'sainnhe/forest-night'
-Plug 'Cyberduc-k/forest-night' " fork for forest-night with highlighting for Plum
-Plug 'itchyny/lightline.vim'
-Plug 'maximbaz/lightline-ale'
+Plug 'sainnhe/forest-night'
+Plug 'dunstontc/vim-vscode-theme'
+Plug 'lifepillar/vim-solarized8'
+Plug 'delphinus/lightline-delphinus'
+Plug 'HenryNewcomer/vim-theme-papaya'
+Plug 'bluz71/vim-moonfly-colors'
 Plug 'file://'.expand('~/.local/share/nvim/plugged/jsfiddle')
+
+Plug 'itchyny/lightline.vim'
+" Plug 'maximbaz/lightline-ale'
 
 Plug 'airblade/vim-rooter'
 " Plug 'cloudhead/neovim-fuzzy'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-Plug 'dense-analysis/ale'
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+" Plug 'dense-analysis/ale'
+" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 
 Plug 'preservim/nerdcommenter'
+Plug 'qpkorr/vim-bufkill'
 
-Plug 'nvim-treesitter/nvim-treesitter'
+" Plug 'nvim-treesitter/nvim-treesitter'
 
 Plug 'cespare/vim-toml'
 Plug 'rust-lang/rust.vim'
@@ -35,6 +44,8 @@ Plug 'vim-scripts/fish-syntax'
 Plug 'neovimhaskell/haskell-vim'
 Plug 'purescript-contrib/purescript-vim'
 Plug 'tikhomirov/vim-glsl'
+Plug 'ziglang/zig.vim'
+Plug 'octol/vim-cpp-enhanced-highlight'
 
 call plug#end()
 
@@ -42,7 +53,7 @@ let g:forest_night_disable_italic_comment = 1
 
 set background=dark
 set termguicolors
-colorscheme forest-night
+colorscheme moonfly
 
 filetype plugin indent on
 
@@ -90,51 +101,37 @@ set ruler
 set number
 set showcmd
 
-" Tree sitter
-let s:enable_treesitter = 0
+" coc
+inoremap <silent><expr> <TAB>
+            \ pumvisible() ? "\<C-n>" :
+            \ <SID>check_back_space() ? "\<TAB>" :
+            \ coc#refresh()
 
-if s:enable_treesitter
-lua <<EOF
-require'nvim-treesitter.configs'.setup {
-    highlight = {
-        enable = true,
-        disable = {},
-    },
-    refactor = {
-        highlight_definitions = {
-            enable = true
-        }
-    }
-}
-EOF
-endif
+inoremap <silent><expr> <C-.> coc#refresh()
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+nmap <silent> rn <Plug>(coc-rename)
+nmap <silent> fd <Plug>(coc-definition)
+nmap <silent> E <Plug>(coc-diagnostic-next)
+nmap <silent> W <Plug>(coc-diagnostic-prev)
 
-" Ale
-let g:ale_fixers = { 'rust': ['rustfmt'] }
-let g:ale_fix_on_save = 1
-let g:ale_linters = { 'rust': ['analyzer'] }
-let g:ale_set_highlights = 1
-let g:ale_sign_column_always = 1
-hi ALEError guifg=red ctermfg=red gui=undercurl cterm=undercurl
-hi ALEWarning cterm=undercurl
-nmap <silent>K :ALEHover<CR>
-nmap <silent>E :ALENextWrap<CR>
-nmap <silent>W :ALEPreviousWrap<CR>
-nmap <silent>fd :ALEGoToDefinition<CR>
+function! s:check_back_space() abort
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1] =~# '\s'
+endfunction
 
-call deoplete#custom#option('sources', { '_': ['ale'] })
-let g:deoplete#enable_at_startup = 1
-set completeopt-=preview
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<Tab>"
-inoremap <expr> <Down> pumvisible() ? "\<C-y>\<Down>" : "\<Down>"
-inoremap <expr> <Up> pumvisible() ? "\<C-y>\<Up>" : "\<Up>"
+function! s:show_documentation()
+    if (index(['vim','help'], &filetype) >= 0)
+        execute 'h '.expand('<cword>')
+    else
+        call CocAction('doHover')
+    endif
+endfunction
 
 " NERD Commenter
 let g:NERDDefaultAlign = 'left'
 let g:NERDCommentEmptyLines = 1
 let g:NERDSpaceDelims = 1
-let g:NERDCustomDelimiters = { 'plum': { 'left': '--' } }
+let g:NERDCustomDelimiters = { 'shade': { 'left': '--', 'leftAlt': '---', 'rightAlt': '---' } }
 nmap <C-_> <Plug>NERDCommenterToggle
 vmap <C-_> <Plug>NERDCommenterToggle
 vmap <C-C> <Plug>NERDCommenterMinimal
@@ -143,23 +140,14 @@ vmap <C-U> <Plug>NERDCommenterUncomment
 " Lightline
 let g:shades_of_purple_lightline=1
 let g:lightline = {}
-let g:lightline.colorscheme = 'forest_night'
+let g:lightline.colorscheme = 'moonfly'
 let g:lightline.active = {}
-let g:lightline.active.left = [['mode'], ['readonly', 'filename', 'linter_errors', 'linter_warnings']]
+let g:lightline.active.left = [['mode'], ['readonly', 'filename', 'coc_status']]
 let g:lightline.active.right = [['lineinfo'], ['filetype']]
 let g:lightline.component_function = {
 	\ 'filename': 'LightlineFilename',
+    \ 'coc_status': 'coc#status'
 	\ }
-let g:lightline.component_expand = {
-    \ 'linter_errors': 'lightline#ale#errors',
-    \ 'linter_warnings': 'lightline#ale#warnings',
-    \ }
-let g:lightline.component_type = {
-    \ 'linter_errors': 'error',
-    \ 'linter_warnings': 'warning',
-    \ }
-let g:lightline#ale#indicator_errors = "E "
-let g:lightline#ale#indicator_warnings = "W "
 " let s:palette = g:lightline#colorscheme#{g:lightline.colorscheme}#palette
 " let s:palette.normal.error = [['#FFFFFF', '#FF0000', 255, 255]]
 " let s:palette.normal.warning = [['#FFFFFF', '#FF8000', 255, 255]]
@@ -172,7 +160,11 @@ endfunction
 
 " FZF
 let g:fzf_preview_window = ''
-let g:fzf_layout = { 'down': '15%' }
+let g:fzf_layout = { 'down': '12' }
+
+autocmd! FileType fzf
+autocmd  FileType fzf set laststatus=0 noshowmode noruler
+            \| autocmd BufLeave <buffer> set laststatus=2 ruler
 
 map <C-p> :Files<CR>
 map <C-g> :Rg<CR>
@@ -185,10 +177,24 @@ function! SynStack()
 endfunc
 
 nmap <C-s> :call SynStack()<CR>
+
+function! RestoreRegister()
+    let @" = s:restore_reg
+    return ''
+endfunction
+
+function! s:Repl()
+    let s:restore_reg = @"
+    return "p@=RestoreRegister()\<CR>"
+endfunction
+
+vnoremap <silent> <expr> p <sid>Repl()
+
 nmap <leader><leader> <C-^>
 nmap <leader>ec :e ~/.config/nvim/init.vim<CR>
 
 nmap <A-Up> dd<Up>P
 nmap <A-Down> ddp
 
-" hi Normal guibg=NONE
+hi Normal guibg=NONE
+hi Comment gui=NONE
