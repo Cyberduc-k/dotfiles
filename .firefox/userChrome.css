@@ -1,1 +1,93 @@
-/mnt/c/Users/Tymo/AppData/Roaming/Mozilla/Firefox/profiles/25zkgwjd.default/chrome/userChrome.css
+#TabsToolbar .titlebar-spacer {
+    display: none;
+}
+
+#tabbrowser-tabs {
+    margin-left: 138px;
+}
+
+scrollbox[orient="horizontal"]:not(#PlacesToolbarItems) {
+    -moz-box-pack: center;
+}
+
+#nav-bar {
+    z-index: 100;
+    margin-bottom: 0 !important;
+    min-height: 0 !important;
+    height: 0;
+    max-height: 0;
+    transition: margin-bottom 250ms, max-height 250ms, min-height 250ms, height 250ms !important;
+}
+
+#navigator-toolbox:focus-within > #nav-bar,
+#nav-bar:hover {
+    margin-bottom: -40px !important;
+    min-height: 40px;
+    height: 40px;
+    max-height: 40px;
+}
+
+#navigator-toolbox > #nav-bar[customizing="true"] {
+    min-height: 40px;
+    height: 40px;
+    max-height: 40px;
+}
+
+#nav-bar toolbarbutton .toolbarbutton-icon {
+    opacity: 0;
+    transition: opacity 250ms !important;
+}
+
+#urlbar {
+    --urlbar-toolbar-height: 40px !important;
+}
+
+#navigator-toolbox:focus-within > #nav-bar toolbarbutton .toolbarbutton-icon,
+#nav-bar:hover toolbarbutton .toolbarbutton-icon,
+#navigator-toolbox > #nav-bar[customizing="true"] toolbarbutton .toolbarbutton-icon {
+    opacity: 1;
+}
+
+.tabbrowser-tab:not([pinned])[fadein] {
+    min-width: 0 !important;
+    max-width: 36px !important;
+    padding: 0 2px !important;
+}
+
+.tabbrowser-tab:not([pinned])[fadein] * {
+    max-width: 32px !important;
+}
+
+.tab-label-container {
+    max-width: 0 !important;
+}
+
+.tab-close-button {
+    display: none !important;
+}
+
+.tab-icon-overlay:not([crashed]) {
+    top: -4.5px;
+    inset-inline-end: -9px;
+    z-index: 1;
+}
+
+.tab-icon-overlay:not([crashed])[soundplaying]:hover,
+.tab-icon-overlay:not([crashed])[muted]:hover,
+.tab-icon-overlay:not([crashed])[activemedia-blocked]:hover {
+    background-color: hsl(0, 0%, 100%) !important;
+    color: hsl(0, 0%, 0%);
+}
+
+.tab-icon-overlay:not([pinned], [sharing], [crashed]):is([soundplaying], [muted], [activemedia-blocked]) {
+    border-radius: 10px !important;
+}
+
+.tabbrowser-tab .tab-icon-image {
+    opacity: 1 !important;
+}
+
+#toolbar-menubar:not(:hover) + #TabsToolbar:not(:hover) .tab-icon-overlay:not([pinned], [sharing], [crashed]):is([soundplaying], [muted], [activemedia-blocked]),
+:is(#toolbar-menubar:hover + #TabsToolbar, #TabsToolbar:hover) .tab-icon-stack:not([pinned], [sharing], [crashed]):is([soundplaying], [muted], [activemedia-blocked]) > :not(.tab-icon-overlay) {
+    opacity: 1 !important;
+}

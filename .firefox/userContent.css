@@ -1,1 +1,7 @@
-/mnt/c/Users/Tymo/AppData/Roaming/Mozilla/Firefox/profiles/25zkgwjd.default/chrome/userContent.css
+* {
+  /*scrollbar-color:  rgba(47, 47, 47, 0.66) rgba(238, 238, 238, 0.38) !important; */
+  scrollbar-width: thin !important;
+  
+  }
+/* :root */
+
