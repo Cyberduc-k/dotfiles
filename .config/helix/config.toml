@@ -1,0 +1,9 @@
+theme = "space"
+
+[editor]
+mouse = false
+true-color = true
+auto-pairs = false
+
+[keys.normal]
+"A-/" = "toggle_comments"

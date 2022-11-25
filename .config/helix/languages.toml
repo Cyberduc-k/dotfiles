@@ -1,0 +1,42 @@
+[[language]]
+name = "typescript"
+indent = { tab-width = 4, unit = "    " }
+auto-format = true
+
+[[language]]
+name = "javascript"
+indent = { tab-width = 4, unit = "    " }
+
+[[language]]
+name = "json"
+indent = { tab-width = 4, unit = "    " }
+
+[[language]]
+name = "html"
+indent = { tab-width = 4, unit = "    " }
+
+[[language]]
+name = "css"
+indent = { tab-width = 4, unit = "    " }
+
+[[language]]
+name = "vue"
+indent = { tab-width = 4, unit = "    " }
+
+[[language]]
+name = "c"
+indent = { tab-width = 4, unit = "    " }
+
+[[language]]
+name = "shade"
+scope = "source.shade"
+injection-regex = "shade"
+file-types = ["shade"]
+roots = ["shadow.toml"]
+comment-token = ";"
+indent = { tab-width = 4, unit = "    " }
+# language-server = { command = "shadow", args = ["lsp"] }
+
+[[grammar]]
+name = "shade"
+source = { git = "https://github.com/Xiulf/tree-sitter-shade", rev = "1f7903642ad0d30ee502f9c850555163f64ad064" }
